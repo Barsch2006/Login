@@ -27,7 +27,7 @@ app.use(express.urlencoded())
 // Konfiguration der Session- und Passport-Authentifizierung
 app.use(session({
   store: new SQLiteStore({
-    db: db,
+    db: './sqlite.sqlite',
     table: 'sessions',
     ttl: 86400 // Session-TTL von einem Tag (in Sekunden)
   }),
