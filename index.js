@@ -8,8 +8,8 @@ const bcrypt = require('bcrypt');
 // Initialisierung der Datenbankverbindung
 const db = new sqlite3.Database('./sqlite.db');
 db.serialize(function () {
-  db.run("CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT)");
-  bcrypt.hash('testpassword', 10, function (err, hash) {
+  db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password TEXT)");
+  bcrypt.hash('testpassword', 10, (err, hash) => {
     db.run("INSERT INTO users (username, password) VALUES (?, ?)", "testuser", hash);
   });
 });
@@ -37,7 +37,7 @@ app.use(passport.session());
 // Konfiguration der Passport-Strategie (hier wird die lokale Strategie verwendet)
 const LocalStrategy = require('passport-local').Strategy;
 passport.use(new LocalStrategy(
-  function (username, password, done) {
+  (username, password, done) => {
     db.get("SELECT * FROM users WHERE username = ?", username, function (err, row) {
       if (err) { return done(err); }
       if (!row) { return done(null, false); }
@@ -53,12 +53,12 @@ passport.use(new LocalStrategy(
 ));
 
 // Konfiguration der Passport-Serialisierung (hier wird die Benutzer-ID serialisiert)
-passport.serializeUser(function (user, done) {
+passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-passport.deserializeUser(function (id, done) {
-  db.get("SELECT * FROM users WHERE id = ?", id, function (err, row) {
+passport.deserializeUser((id, done) => {
+  db.get("SELECT * FROM users WHERE id = ?", id, (err, row) => {
     if (err) { return done(err); }
     done(null, row);
   });
@@ -67,14 +67,14 @@ passport.deserializeUser(function (id, done) {
 // Routen-Handler für den Login-Vorgang
 app.post('/login',
   passport.authenticate('local'),
-  function (req, res) {
+  (req, res) => {
     res.cookie('sessionID', req.sessionID);
     res.send('Login erfolgreich');
   }
 );
 
 // Routen-Handler für den Logout-Vorgang
-app.get('/logout', function (req, res) {
+app.get('/logout', (req, res) => {
   req.logout((err) => {
     if (err) {
       console.error(err)
@@ -89,7 +89,7 @@ app.get('/logout', function (req, res) {
 
 // Routen-Handler für geschützte Ressourcen
 app.get('/geschuetzt',
-  function (req, res) {
+  (req, res) => {
     if (req.isAuthenticated()) {
       res.send('Zugriff auf geschützte Ressource gewährt');
     } else {
@@ -101,6 +101,6 @@ app.get('/geschuetzt',
 app.use(express.static('C:/Users/Sabine/Desktop/Login/frontend'))
 
 // Starten des Servers
-app.listen(3000, function () {
+app.listen(3000, () => {
   console.log('Server gestartet auf Port 3000');
 });
