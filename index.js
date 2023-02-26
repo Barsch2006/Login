@@ -8,7 +8,7 @@ const session = require('express-session');
 const SQLiteStore = require('connect-sqlite3')(session);
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
-const {AsyncDB} = require('./AsyncDB'); // Async Database
+const { AsyncDB } = require('./AsyncDB'); // Async Database
 
 /*
 Database
