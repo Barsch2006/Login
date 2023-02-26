@@ -87,14 +87,14 @@ Express Router Listener
 // Routen-Handler für den Login-Vorgang
 app.post('/login',
     passport.authenticate('local'),
-    function (req, res) {
+    (req, res) => {
         res.cookie('sessionID', req.sessionID);
         res.send('Login erfolgreich');
     }
 );
 
 // Routen-Handler für den Logout-Vorgang
-app.get('/logout', function (req, res) {
+app.get('/logout', (req, res) => {
     req.logout((err) => {
         if (err) {
             console.error(err)
@@ -102,14 +102,13 @@ app.get('/logout', function (req, res) {
             req.session.destroy();
             res.clearCookie('sessionID');
             res.send('Logout erfolgreich');
-
         }
     });
 });
 
 // Routen-Handler für geschützte Ressourcen
 app.get('/geschuetzt',
-  function (req, res) {
+  (req, res) => {
     if (req.isAuthenticated()) {
       res.send('Zugriff auf geschützte Ressource gewährt');
     } else {
