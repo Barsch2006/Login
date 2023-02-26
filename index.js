@@ -8,6 +8,7 @@ const session = require('express-session');
 const SQLiteStore = require('connect-sqlite3')(session);
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
+const {AsyncDB} = require('./AsyncDB'); // Async Database
 
 /*
 Database
@@ -20,6 +21,7 @@ db.serialize(() => {
         password TEXT NOT NULL
     )`);
 });
+const adb = new AsyncDB(db); // Implement AsyncDB
 
 bcrypt.hash('testpassword', 10, (err, hash) => {
     db.run("INSERT INTO users (username, password) VALUES (?, ?)", ["tester", hash], (err) => {
@@ -108,7 +110,7 @@ app.get('/logout', (req, res) => {
 
 // Routen-Handler für geschützte Ressourcen
 app.get('/geschuetzt',
-  (req, res) => {
+  async (req, res) => {
     if (req.isAuthenticated()) {
       res.send('Zugriff auf geschützte Ressource gewährt');
     } else {
