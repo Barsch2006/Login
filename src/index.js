@@ -9,6 +9,12 @@ const SQLiteStore = require('connect-sqlite3')(session);
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
 const { AsyncDB } = require('./AsyncDB'); // Async Database
+const { Logger } = require('./Logger') // Logger
+
+/*
+Logger
+*/
+const logger = new Logger(process.env.LOG)
 
 /*
 Database
@@ -20,6 +26,8 @@ db.serialize(() => {
         username TEXT NOT NULL UNIQUE,
         password TEXT NOT NULL
     )`);
+
+    logger.log('INFO', 'DB', 'DB serialized');
 });
 const adb = new AsyncDB(db); // Implement AsyncDB
 
