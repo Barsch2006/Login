@@ -8,17 +8,21 @@ const bcrypt = require('bcrypt');
 // Initialisierung der Datenbankverbindung
 const db = new sqlite3.Database('./sqlite.sqlite');
 db.serialize(function () {
-  db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT)");
-  bcrypt.hash('testpassword', 10, function (err, hash) {
-    db.run("INSERT INTO users (username, password) VALUES (?, ?)", "testuser", hash);
+  db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password TEXT)");
+  bcrypt.hash('testpassword', 10, (err, hash) => {
+    db.run("INSERT INTO users (username, password) VALUES (?, ?)", ["testuser", hash], (err) => {
+      if (err) {
+        console.log('user exists')
+      }
+    });
   });
 });
 
 // Initialisierung des Express-Servers
 const app = express();
-
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json())
+app.use(express.text())
+app.use(express.urlencoded())
 
 // Konfiguration der Session- und Passport-Authentifizierung
 app.use(session({
