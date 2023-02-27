@@ -3,7 +3,7 @@ function checkCookies() {
     if (cookies.length > 0) {
         document.querySelector('.cookies').style.display = "none";
     } else {
-        document.querySelector('main #app').style.filter = "blur(4px)"
+        document.querySelector('main #app').style.visibility = "0"
     }
 }
 

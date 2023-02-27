@@ -137,6 +137,7 @@ body {
   top: 30%;
   margin-bottom: 15%;
   max-width: 80vw;
+  z-index: 999;
 }
 
 .cookies .title {
@@ -184,6 +185,56 @@ body {
 .cookies form input[type="checkbox"] {
   width: 18px;
   height: 18px;
+}
+
+.login {
+  display: flex;
+  justify-self: center;
+  align-self: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 15%;
+  max-width: 80vw;
+}
+
+.login .title {
+  border-radius: 20px 20px 0px 0px;
+  background-color: var(--accent);
+  padding: 10px;
+  box-sizing: border-box;
+  color: #fff;
+  padding-left: 20px;
+}
+
+.login .content {
+  border-radius: 0px 0px 20px 20px;
+  background-color: #fff;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 10px;
+}
+
+.login button {
+  width: min-content;
+}
+
+input[type="text"], input[type="password"], input[type="email"] {
+  background-color: #fff;
+  padding: 2px;
+  border-radius: 10px;
+  color: #000;
+  outline: 1px solid var(--accent);
+  font-size: 20px;
+  border: none;
+}
+
+.cookies .content * {
+  font-size: 16px;
 }
 
 main {
