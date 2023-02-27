@@ -61,6 +61,11 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Middleware für Error Fehler Pages
+app.use(function (req, res, next) {
+    res.status(404).send("Seite nicht gefunden!");
+});
+
 /*
 Passport.js Konfiguration
 */
@@ -119,13 +124,13 @@ app.get('/logout', (req, res) => {
 
 //geschützte Ressourcen
 app.get('/geschuetzt',
-  async (req, res) => {
-    if (req.isAuthenticated()) {
-      res.send('Zugriff auf geschützte Ressource gewährt');
-    } else {
-      res.redirect('/');
+    async (req, res) => {
+        if (req.isAuthenticated()) {
+            res.send('Zugriff auf geschützte Ressource gewährt');
+        } else {
+            res.redirect('/');
+        }
     }
-  }
 );
 
 /*

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muster</title>
+    <link rel="icon" href="logo.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="index.js" defer></script>
+</head>
+
+<body onload="checkCookies()">
+    <header>
+        <div onclick="window.location='/'">
+            <img src="logo.ico" alt="Logo">
+            <h1 class="onHideMobile">Gymnasium Riedberg - </h1>
+            <h1>Wahltool</h1>
+        </div>
+
+        <div>
+            <a href="/logout"><img src="img/logout.svg">
+                <p>Logout</p>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <section class="cookies">
+            <h1 class="title">
+                Hinweis zur Datenspeicherung und Cookies
+            </h1>
+            <section class="content">
+                <p>
+                    Wir nutzen Cookies um die Funktionalität dieser Website sicherzustellen.
+                    Mit dem Click auf 'Weiter' stimmt der Benutzer
+                    unserer Datenschutzerklärung zu.
+                </p>
+                <form method="dialog">
+                    <div>
+                        <div>
+                            <input type="checkbox" id="cookies_check" required>
+                            <label for="cookies_check">
+                                Notwendige Cookies aktzeptieren
+                            </label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="datenschutz_check" required>
+                            <label for="datenschutz_check">
+                                Datenschutzerklärung aktzeptieren
+                            </label>
+                        </div>
+                    </div>
+    
+                    <div>
+                        <button onclick="setCookies()">
+                            <h1>
+                                Weiter
+                            </h1>
+                        </button>
+                    </div>
+                </form>
+                <a href="datenschutz.html">Datenschutzrichtlinie</a>
+            </section>
+        </section>
+        
+        <!-- Main Content -->
+        <section id="app">
+
+        </section>
+    </main>
+
+    <footer>
+        <a href="impressum.html">Impressum</a>
+        <a href="policy.html">Datenschutz</a>
+    </footer>
+</body>
+
+</html>
