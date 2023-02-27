@@ -24,7 +24,8 @@ db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS users(
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
         username TEXT NOT NULL UNIQUE,
-        password TEXT NOT NULL
+        password TEXT NOT NULL,
+        groups TEXT NOT NULL
     )`);
 
     logger.log('INFO', 'DB', 'DB serialized');
@@ -94,7 +95,7 @@ passport.deserializeUser((id, done) => {
 /*
 Express Router Listener
 */
-// Routen-Handler für den Login-Vorgang
+//Login-Vorgang
 app.post('/login',
     passport.authenticate('local'),
     (req, res) => {
@@ -103,7 +104,7 @@ app.post('/login',
     }
 );
 
-// Routen-Handler für den Logout-Vorgang
+//Logout-Vorgang
 app.get('/logout', (req, res) => {
     req.logout((err) => {
         if (err) {
@@ -116,7 +117,7 @@ app.get('/logout', (req, res) => {
     });
 });
 
-// Routen-Handler für geschützte Ressourcen
+//geschützte Ressourcen
 app.get('/geschuetzt',
   async (req, res) => {
     if (req.isAuthenticated()) {

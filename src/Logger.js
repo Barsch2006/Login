@@ -20,7 +20,7 @@ exports.Logger = class Logger {
     }
 
     log(type, name, msg) {
-        let filepath = path.join(this.path, `${formatDate.format(new Date(), 'yyyy-MM-dd--HH-mm-ss')}--${name}.log`);
+        let filepath = path.join(this.path, `${formatDate.format(new Date(), 'yyyy-MM-dd')}--${name}.log`);
         if (!fs.existsSync(filepath)) {
             fs.writeFileSync(filepath, `[INFO] ${formatDate.format(new Date(), 'HH-mm-ss')} Begin of log ${name}\n`);
         }
