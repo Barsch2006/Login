@@ -142,5 +142,5 @@ app.use(express.static(process.env.STATIC));
 Express Listen
 */
 app.listen(process.env.PORT, () => {
-    console.log(`Server gestartet auf Port ${process.env.PORT}`);
+    logger.log(`Server gestartet auf Port ${process.env.PORT}`);
 });
