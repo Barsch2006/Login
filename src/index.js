@@ -61,11 +61,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Middleware für Error Fehler Pages
-app.use(function (req, res, next) {
-    res.status(404).send("Seite nicht gefunden!");
-});
-
 /*
 Passport.js Konfiguration
 */
@@ -142,5 +137,5 @@ app.use(express.static(process.env.STATIC));
 Express Listen
 */
 app.listen(process.env.PORT, () => {
-    logger.log(`Server gestartet auf Port ${process.env.PORT}`);
+    logger.log("INFO", 'SERVER', `Server gestartet auf Port ${process.env.PORT}`);
 });
