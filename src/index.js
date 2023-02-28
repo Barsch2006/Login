@@ -29,12 +29,6 @@ db.serialize(() => {
         groups TEXT NOT NULL
     )`);
 
-    db.run(`CREATE TABLE IF NOT EXISTS groups(
-        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
-        name TEXT NOT NULL UNIQUE,
-        permissions INTEGER NOT NULL
-    )`);
-
     logger.log('INFO', 'DB', 'DB serialized');
 });
 const adb = new AsyncDB(db); // Implement AsyncDB
