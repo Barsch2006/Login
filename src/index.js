@@ -139,8 +139,8 @@ app.get('/logout', (req, res) => {
 //geschützte Ressourcen
 app.get('/geschuetzt',
     async (req, res, next) => {
-        if (req.isAuthenticated()) {
-            res.send('Zugriff auf geschützte Ressource gewährt');
+        if (req.isAuthenticated() && req.user.groups.split(',').includes('Tester')) {
+            res.send(await adb.allAsync(`SELECT * FROM users`));
         } else {
             res.status(403);
             next();
