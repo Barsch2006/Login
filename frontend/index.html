@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="icon" href="logo.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="index.js" defer></script>
+</head>
+
+<body onload="checkCookies(); checkURI();">
+    <section class="fixed-header">
+        <div>
+            <p>
+                Gymnasium Riedberg
+            </p>
+        </div>
+        <div>
+            <a href="/logout"><img src="img/logout.svg">
+                <p>Logout</p>
+            </a>
+        </div>
+    </section>
+    <header>
+        <div onclick="window.location='/'">
+            <img src="logo.ico" alt="Logo">
+            <h1 class="onHideMobile">Gymnasium Riedberg - </h1>
+            <h1>Wahltool</h1>
+        </div>
+    </header>
+
+    <main>
+        <form action="/login" method="post" class="formular">
+            <section class="title">
+                <h1>
+                    Login
+                </h1>
+            </section>
+            <section class="content">
+                <p id="wrong" style="display: none; color: red;">
+                    Login fehlgeschlagen
+                </p>
+                <table>
+                    <tr>
+                        <td>Benutzername: </td>
+                        <td><input type="text" name="username" required></td>
+                    </tr>
+                    <tr>
+                        <td>Passwort: </td>
+                        <td><input type="password" name="password" required></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button type="submit">
+                                <h1>
+                                    Einloggen
+                                </h1>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </section>
+        </form>
+    </main>
+
+    <footer>
+        <a href="impressum.html">Impressum</a>
+        <a href="policy.html">Datenschutz</a>
+    </footer>
+</body>
+
+</html>

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Muster</title>
+    <title>Cookies aktzeptieren-</title>
     <link rel="icon" href="logo.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="style.css">
@@ -36,43 +36,42 @@
     </header>
 
     <main>
-        <section class="cookies">
-            <h1 class="title">
-                Hinweis zur Datenspeicherung und Cookies
-            </h1>
+        <form method="dialog" class="formular">
+            <section class="title">
+                <h1>
+                    Hinweis zur Datenspeicherung und Cookies
+                </h1>
+            </section>
             <section class="content">
                 <p>
                     Wir nutzen Cookies um die Funktionalität dieser Website sicherzustellen.
                     Mit dem Click auf 'Weiter' stimmt der Benutzer
                     unserer Datenschutzerklärung zu.
                 </p>
-                <form method="dialog">
-                    <div>
-                        <div>
-                            <input type="checkbox" id="cookies_check" required>
-                            <label for="cookies_check">
-                                Notwendige Cookies aktzeptieren
-                            </label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="datenschutz_check" required>
-                            <label for="datenschutz_check">
-                                Datenschutzerklärung aktzeptieren
-                            </label>
-                        </div>
-                    </div>
-        
-                    <div>
-                        <button onclick="setCookies()">
-                            <h1>
-                                Weiter
-                            </h1>
-                        </button>
-                    </div>
-                </form>
-                <a href="datenschutz.html">Datenschutzrichtlinie</a>
+                <div>
+                    <input type="checkbox" id="cookies_check" required>
+                    <label for="cookies_check">
+                        Notwendige Cookies aktzeptieren
+                    </label>
+                </div>
+                <div>
+                    <input type="checkbox" id="datenschutz_check" required>
+                    <label for="datenschutz_check">
+                        Datenschutzerklärung aktzeptieren
+                    </label>
+                </div>
+                <div>
+                    <button onclick="setCookies()">
+                        <h1>
+                            Weiter
+                        </h1>
+                    </button>
+                </div>
+                <div>
+                    <a href="datenschutz.html">Datenschutzrichtlinie</a>
+                </div>
             </section>
-        </section>
+        </form>
     </main>
 
     <footer>
