@@ -29,6 +29,12 @@ db.serialize(() => {
         groups TEXT NOT NULL
     )`);
 
+    db.run(`CREATE TABLE IF NOT EXISTS groups(
+        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
+        name TEXT NOT NULL UNIQUE,
+        permissions INTEGER NOT NULL
+    )`);
+
     logger.log('INFO', 'DB', 'DB serialized');
 });
 const adb = new AsyncDB(db); // Implement AsyncDB
@@ -36,7 +42,7 @@ const adb = new AsyncDB(db); // Implement AsyncDB
 bcrypt.hash('testpassword', 10, (err, hash) => {
     db.run("INSERT INTO users (username, password, groups) VALUES (?, ?, ?)", ["tester", hash, 'Tester, Admins, User'], (err) => {
         if (err) {
-            console.log('test-user all ready exists');
+            logger.log('test-user all ready exists');
         }
     });
 });
@@ -152,11 +158,11 @@ Custom Error Pages
 */
 // 404
 app.use((req, res, next) => {
-    res.status(404).send(StatusPages.http404());
+    res.status(404).send(new StatusPages().http404());
 });
 // 403
 app.use((req, res, next) => {
-    res.status(403).send(StatusPages.http403());
+    res.status(403).send(new StatusPages().http403());
 });
 
 /*
