@@ -60,6 +60,7 @@ header {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  margin-top: 30px;
 }
 
 header div {
@@ -94,6 +95,32 @@ header p {
 a img {
   min-height: 24px;
   max-height: 24px;
+}
+
+.fixed-header {
+  position: fixed;
+  background-color: var(--accent);
+  color: #fff;
+  top: 0;
+  min-width: 100%;
+  max-width: 100%;
+  min-height: 30px;
+  max-height: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 14px;
+  padding-left: 14px;
+  box-sizing: border-box;
+}
+
+.fixed-header a {
+  color: #fff;
+}
+
+.fixed-header p {
+  color: #fff;
 }
 
 footer {
@@ -187,40 +214,8 @@ body {
   height: 18px;
 }
 
-.login {
-  display: flex;
-  justify-self: center;
-  align-self: center;
-  justify-content: center;
-  flex-direction: column;
-  margin-bottom: 15%;
-  max-width: 80vw;
-}
-
-.login .title {
-  border-radius: 20px 20px 0px 0px;
-  background-color: var(--accent);
-  padding: 10px;
-  box-sizing: border-box;
-  color: #fff;
-  padding-left: 20px;
-}
-
-.login .content {
-  border-radius: 0px 0px 20px 20px;
-  background-color: #fff;
-  padding: 10px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 10px;
-}
-
-.login button {
-  width: min-content;
+.cookies .content * {
+  font-size: 16px;
 }
 
 input[type="text"], input[type="password"], input[type="email"] {
@@ -233,12 +228,8 @@ input[type="text"], input[type="password"], input[type="email"] {
   border: none;
 }
 
-.cookies .content * {
-  font-size: 16px;
-}
-
 main {
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - 30px - 80px);
   margin-top: 20px;
   min-width: 100%;
   max-width: 100%;
