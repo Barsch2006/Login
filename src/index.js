@@ -96,8 +96,20 @@ passport.deserializeUser((id, done) => {
 Express Router Listener
 */
 //Login-Vorgang
+app.get('/', async (req, res) => {
+    if (req.isAuthenticated()) {
+        res.statusCode = 302;
+        res.setHeader('Location', '/geschuetzt')
+        res.end()
+    } else {
+        res.statusCode = 302;
+        res.setHeader('Location', 'index.html')
+        res.end()
+    }
+})
+
 app.post('/login',
-    passport.authenticate('local'),
+    passport.authenticate('local', {failureRedirect: '/index.html?wrong=true'}),
     (req, res) => {
         res.cookie('sessionID', req.sessionID);
         res.send('Login erfolgreich');

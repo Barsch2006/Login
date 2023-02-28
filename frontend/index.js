@@ -3,7 +3,7 @@ function checkCookies() {
     if (cookies.length > 0) {
         console.log("Cookies accepted")
     } else {
-        window.location.href = 'cookie.html'
+        window.location.href = 'cookies.html'
     }
 }
 
