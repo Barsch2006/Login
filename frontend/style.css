@@ -239,6 +239,13 @@ main {
   justify-content: center;
 }
 
+.error_screen {
+  background-color: #fff;
+  padding: 14px;
+  box-sizing: border-box;
+  border-radius: 20px;
+}
+
 @media screen and (max-width: 860px) {
   .onHideMobile {
     display: none;
