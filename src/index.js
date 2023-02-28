@@ -9,12 +9,13 @@ const SQLiteStore = require('connect-sqlite3')(session);
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
 const { AsyncDB } = require('./AsyncDB'); // Async Database
-const { Logger } = require('./Logger') // Logger
+const { Logger } = require('./Logger'); // Logger
+const { StatusPages } = require('./StatusPages'); // Custom StatusPages
 
 /*
 Logger
 */
-const logger = new Logger(process.env.LOG)
+const logger = new Logger(process.env.LOG);
 
 /*
 Database
@@ -35,7 +36,7 @@ const adb = new AsyncDB(db); // Implement AsyncDB
 bcrypt.hash('testpassword', 10, (err, hash) => {
     db.run("INSERT INTO users (username, password) VALUES (?, ?)", ["tester", hash], (err) => {
         if (err) {
-            console.log('test-user all ready exists')
+            console.log('test-user all ready exists');
         }
     });
 });
@@ -44,9 +45,9 @@ bcrypt.hash('testpassword', 10, (err, hash) => {
 Express Server
 */
 const app = express();
-app.use(express.json())
-app.use(express.text())
-app.use(express.urlencoded())
+app.use(express.json());
+app.use(express.text());
+app.use(express.urlencoded());
 // Konfiguration der Session- und Passport-Authentifizierung
 app.use(session({
     store: new SQLiteStore({
@@ -99,12 +100,12 @@ Express Router Listener
 app.get('/', async (req, res) => {
     if (req.isAuthenticated()) {
         res.statusCode = 302;
-        res.setHeader('Location', '/geschuetzt')
-        res.end()
+        res.setHeader('Location', '/geschuetzt');
+        res.end();
     } else {
         res.statusCode = 302;
-        res.setHeader('Location', 'index.html')
-        res.end()
+        res.setHeader('Location', 'index.html');
+        res.end();
     }
 })
 
@@ -131,11 +132,12 @@ app.get('/logout', (req, res) => {
 
 //geschützte Ressourcen
 app.get('/geschuetzt',
-    async (req, res) => {
+    async (req, res, next) => {
         if (req.isAuthenticated()) {
             res.send('Zugriff auf geschützte Ressource gewährt');
         } else {
-            res.redirect('/');
+            res.status(403);
+            next();
         }
     }
 );
@@ -150,103 +152,11 @@ Custom Error Pages
 */
 // 404
 app.use((req, res, next) => {
-    res.status(404).send(`
-  <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 Not Found</title>
-    <link rel="icon" href="logo.ico" type="image/x-icon">
-
-    <link rel="stylesheet" href="style.css">
-
-    <script src="index.js" defer></script>
-</head>
-
-<body>
-    <section class="fixed-header">
-        <div>
-            <p>
-                Gymnasium Riedberg
-            </p>
-        </div>
-    </section>
-    <header>
-        <div onclick="window.location='/'">
-            <img src="logo.ico" alt="Logo">
-            <h1 class="onHideMobile">Gymnasium Riedberg - </h1>
-            <h1>Wahltool</h1>
-        </div>
-    </header>
-
-    <main>
-        <section class="error_screen">
-            <h1>404 Not Found</h1>
-            <p>Der angegebene Pfad konnte nicht gefunden werden</p>
-        </section>
-    </main>
-
-    <footer>
-        <a href="impressum.html">Impressum</a>
-        <a href="policy.html">Datenschutz</a>
-    </footer>
-</body>
-
-</html>
-`);
+    res.status(404).send(StatusPages.http404());
 });
 // 403
 app.use((req, res, next) => {
-    res.status(403).send(`
-  <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>403 Kein Zugriff</title>
-    <link rel="icon" href="logo.ico" type="image/x-icon">
-
-    <link rel="stylesheet" href="style.css">
-
-    <script src="index.js" defer></script>
-</head>
-
-<body>
-    <section class="fixed-header">
-        <div>
-            <p>
-                Gymnasium Riedberg
-            </p>
-        </div>
-    </section>
-    <header>
-        <div onclick="window.location='/'">
-            <img src="logo.ico" alt="Logo">
-            <h1 class="onHideMobile">Gymnasium Riedberg - </h1>
-            <h1>Wahltool</h1>
-        </div>
-    </header>
-
-    <main>
-        <section class="error_screen">
-            <h1>403 Kein Zugriff</h1>
-            <p>Sie haben auf diesen Inhalt keinen Zugriff</p>
-        </section>
-    </main>
-
-    <footer>
-        <a href="impressum.html">Impressum</a>
-        <a href="policy.html">Datenschutz</a>
-    </footer>
-</body>
-
-</html>
-`);
+    res.status(403).send(StatusPages.http403());
 });
 
 /*
