@@ -100,7 +100,7 @@ Express Router Listener
 app.get('/', async (req, res) => {
     if (req.isAuthenticated()) {
         res.statusCode = 302;
-        res.setHeader('Location', '/geschuetzt');
+        res.setHeader('Location', '/home');
         res.end();
     } else {
         res.statusCode = 302;
@@ -131,7 +131,7 @@ app.get('/logout', (req, res) => {
 });
 
 //geschützte Ressourcen
-app.get('/geschuetzt',
+app.get('/home',
     async (req, res, next) => {
         if (req.isAuthenticated() && req.user.groups.split(',').includes('Tester')) {
             res.send(await adb.allAsync(`SELECT * FROM users`));
