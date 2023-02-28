@@ -34,7 +34,7 @@ db.serialize(() => {
 const adb = new AsyncDB(db); // Implement AsyncDB
 
 bcrypt.hash('testpassword', 10, (err, hash) => {
-    db.run("INSERT INTO users (username, password) VALUES (?, ?)", ["tester", hash], (err) => {
+    db.run("INSERT INTO users (username, password, groups) VALUES (?, ?, ?)", ["tester", hash, 'Tester, Admins, User'], (err) => {
         if (err) {
             console.log('test-user all ready exists');
         }
