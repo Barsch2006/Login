@@ -11,7 +11,6 @@ const bcrypt = require('bcrypt');
 const { AsyncDB } = require('./AsyncDB'); // Async Database
 const { Logger } = require('./Logger'); // Logger
 const { StatusPages } = require('./StatusPages'); // Custom StatusPages
-const { User } = require('./User'); // User
 
 /*
 Logger
@@ -35,7 +34,7 @@ db.serialize(() => {
 const adb = new AsyncDB(db); // Implement AsyncDB
 
 bcrypt.hash('testpassword', 10, (err, hash) => {
-    db.run("INSERT INTO users (username, password, groups) VALUES (?, ?, ?)", ["tester", hash, 'Tester, SuS, User'], (err) => {
+    db.run("INSERT INTO users (username, password, groups) VALUES (?, ?, ?)", ["tester", hash, 'User'], (err) => {
         if (err) {
             logger.log('INFO', 'DB', 'test-user all ready exists');
         }
@@ -136,21 +135,19 @@ Protected Path's
 // protected Startseite
 app.get('/home', async (req, res, next) => {
     if (req.isAuthenticated() == true) {
-        if (req.user.groups.includes('Admin') == true) {
+        if (req.user.groups.includes('Admin') == true) { // Is User a Admin?
             res.sendFile(`${process.env.PROTECTED}/admin.html`);
-        } else if (req.user.groups.includes('Lehrer') == true) {
+        } else if (req.user.groups.includes('Lehrer') == true) { // Is User a Teacher?
             res.sendFile(`${process.env.PROTECTED}/lehrer.html`);
-        } else if (req.user.groups.includes('User') == true) {
+        } else if (req.user.groups.includes('User') == true) { // Is User a User?
             res.sendFile(`${process.env.PROTECTED}/user.html`);
-        } else {
-            console.log(req.user.groups.includes('User'))
+        } else { // Unauthorized, because this path is only for Users
             res.status(403).send(new StatusPages().http403());
         }
     } else {
         res.status(403).send(new StatusPages().http403());
     }
-}
-);
+});
 
 /*
 Express Static
