@@ -11,6 +11,7 @@ const bcrypt = require('bcrypt');
 const { AsyncDB } = require('./AsyncDB'); // Async Database
 const { Logger } = require('./Logger'); // Logger
 const { StatusPages } = require('./StatusPages'); // Custom StatusPages
+const { User } = require('./User'); // User
 
 /*
 Logger
@@ -34,7 +35,7 @@ db.serialize(() => {
 const adb = new AsyncDB(db); // Implement AsyncDB
 
 bcrypt.hash('testpassword', 10, (err, hash) => {
-    db.run("INSERT INTO users (username, password, groups) VALUES (?, ?, ?)", ["tester", hash, 'Tester, Admins, User'], (err) => {
+    db.run("INSERT INTO users (username, password, groups) VALUES (?, ?, ?)", ["tester", hash, 'Tester, SuS, User'], (err) => {
         if (err) {
             logger.log('INFO', 'DB', 'test-user all ready exists');
         }
@@ -96,24 +97,23 @@ passport.deserializeUser((id, done) => {
 /*
 Express Router Listener
 */
-//Login-Vorgang
+// public Startseite
 app.get('/', async (req, res) => {
     if (req.isAuthenticated()) {
-        res.statusCode = 302;
-        res.setHeader('Location', '/home');
+        res.redirect('/home');
         res.end();
     } else {
-        res.statusCode = 302;
-        res.setHeader('Location', 'index.html');
+        res.redirect('index.html');
         res.end();
     }
 })
 
+// Login-Vorgang
 app.post('/login',
     passport.authenticate('local', { failureRedirect: '/index.html?wrong=true' }),
     (req, res) => {
         res.cookie('sessionID', req.sessionID);
-        res.send('Login erfolgreich');
+        res.redirect('/home');
     }
 );
 
@@ -121,7 +121,7 @@ app.post('/login',
 app.get('/logout', (req, res) => {
     req.logout((err) => {
         if (err) {
-            console.error(err)
+            logger.log('ERROR', 'SERVER LOGOUT', err)
         } else {
             req.session.destroy();
             res.clearCookie('sessionID');
@@ -130,16 +130,26 @@ app.get('/logout', (req, res) => {
     });
 });
 
-//geschützte Ressourcen
-app.get('/home',
-    async (req, res, next) => {
-        if (req.isAuthenticated() && req.user.groups.split(',').includes('Tester')) {
-            res.send(await adb.allAsync(`SELECT * FROM users`));
+/*
+Protected Path's
+*/
+// protected Startseite
+app.get('/home', async (req, res, next) => {
+    if (req.isAuthenticated() == true) {
+        if (req.user.groups.includes('Admin') == true) {
+            res.sendFile(`${process.env.PROTECTED}/admin.html`);
+        } else if (req.user.groups.includes('Lehrer') == true) {
+            res.sendFile(`${process.env.PROTECTED}/lehrer.html`);
+        } else if (req.user.groups.includes('User') == true) {
+            res.sendFile(`${process.env.PROTECTED}/user.html`);
         } else {
-            res.status(403);
-            next();
+            console.log(req.user.groups.includes('User'))
+            res.status(403).send(new StatusPages().http403());
         }
+    } else {
+        res.status(403).send(new StatusPages().http403());
     }
+}
 );
 
 /*
@@ -150,13 +160,8 @@ app.use(express.static(process.env.STATIC));
 /*
 Custom Error Pages
 */
-// 404
 app.use((req, res, next) => {
     res.status(404).send(new StatusPages().http404());
-});
-// 403
-app.use((req, res, next) => {
-    res.status(403).send(new StatusPages().http403());
 });
 
 /*
