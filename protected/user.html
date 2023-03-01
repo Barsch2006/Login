@@ -9,9 +9,22 @@
     <link rel="icon" href="logo.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="protected.css">
 
     <script src="index.js" defer></script>
 </head>
+
+<script defer>
+    fetch('/wahlen/all')
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(wahlen => {
+                let wahl = new Wahl(wahlen.id, wahlen.name, JSON.parse(wahlen.answers))
+                document.querySelector('main').appendChild(wahl.build())
+            })
+        })
+        .catch(error => console.error(error))
+</script>
 
 <body>
     <section class="fixed-header">

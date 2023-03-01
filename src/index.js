@@ -40,6 +40,14 @@ bcrypt.hash('testpassword', 10, (err, hash) => {
         }
     });
 });
+bcrypt.hash('testpassword', 10, (err, hash) => {
+    db.run("INSERT INTO users (username, password, groups) VALUES (?, ?, ?)", ["tester2", hash, 'User, Admin'], (err) => {
+        if (err) {
+            logger.log('INFO', 'DB', 'test-user all ready exists');
+        }
+    });
+});
+
 
 /*
 Express Server
@@ -143,6 +151,18 @@ app.get('/home', async (req, res, next) => {
             res.sendFile(`${process.env.PROTECTED}/user.html`);
         } else { // Unauthorized, because this path is only for Users
             res.status(403).send(new StatusPages().http403());
+        }
+    } else {
+        res.status(403).send(new StatusPages().http403());
+    }
+});
+
+app.get('/wahlen/:id', async (req, res) => {
+    if (req.isAuthenticated() == true) {
+        if (req.params.id == 'all') {
+            res.send(await adb.allAsync('SELECT * FROM users'));
+        } else {
+            res.send(await adb.getAsync('SELECT * FROM users WHERE id = ?', req.params.id));
         }
     } else {
         res.status(403).send(new StatusPages().http403());
