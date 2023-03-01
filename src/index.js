@@ -36,7 +36,7 @@ const adb = new AsyncDB(db); // Implement AsyncDB
 bcrypt.hash('testpassword', 10, (err, hash) => {
     db.run("INSERT INTO users (username, password, groups) VALUES (?, ?, ?)", ["tester", hash, 'Tester, Admins, User'], (err) => {
         if (err) {
-            logger.log('test-user all ready exists');
+            logger.log('INFO', 'DB', 'test-user all ready exists');
         }
     });
 });
