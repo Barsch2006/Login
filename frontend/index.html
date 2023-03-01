@@ -9,6 +9,7 @@
     <link rel="icon" href="logo.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="abouts.css">
 
     <script src="index.js" defer></script>
 </head>
@@ -40,25 +41,15 @@
                 <p id="wrong" style="display: none; color: red;">
                     Login fehlgeschlagen
                 </p>
-                <table>
-                    <tr>
-                        <td>Benutzername: </td>
-                        <td><input type="text" name="username" required></td>
-                    </tr>
-                    <tr>
-                        <td>Passwort: </td>
-                        <td><input type="password" name="password" required></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <button type="submit">
-                                <h1>
-                                    Einloggen
-                                </h1>
-                            </button>
-                        </td>
-                    </tr>
-                </table>
+                <p>Benutzername:</p>
+                <input type="text" name="username" required placeholder="max.mustermann">
+                <p>Passwort:</p>
+                <input type="password" name="password" required placeholder="1234">
+                <button type="submit">
+                    <h1>
+                        Einloggen
+                    </h1>
+                </button>
             </section>
         </form>
     </main>
